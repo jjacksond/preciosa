@@ -123,7 +123,7 @@ function mostrarPopup() {
 document.getElementById("startBtn").addEventListener("click", () => {
   document.getElementById("inicio").style.display = "none"; // Oculta pantalla inicial
   beat.volume = 0.5; // Ajusta volumen
-  beat.play().catch(() => console.log("Toca la pantalla para iniciar audio si es necesario"));
+  beat.play().catch(() => console.log("Toca la pantalla para iniciar audio si Safari lo bloquea"));
   mostrarPopup(); // Inicia pop-ups
 });
 </script>
