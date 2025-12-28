@@ -94,6 +94,7 @@ button {
 </audio>
 
 <script>
+// Frases de la canción
 const letra = [
   "Yo no soy celoso,<br>¿pero quién e' ese ....?",
   "Dime quién e' ese .....",
@@ -101,28 +102,34 @@ const letra = [
   "Auch, mi corazón"
 ];
 
+// Duración de cada popup en milisegundos
+const duracion = [3000, 4000, 5000, 3500]; // Puedes cambiar cada tiempo
+
 const texto = document.getElementById("texto");
 const popup = document.getElementById("popup");
 const beat = document.getElementById("beat");
-const duracion = 4000; // 3 segundos por popup
 let indice = 0;
 
-// Función para mostrar pop-ups automáticos
+// Función para mostrar popups automáticos
 function mostrarPopup() {
   if (indice < letra.length) {
     texto.innerHTML = letra[indice];
     popup.style.display = "flex";
-    indice++;
-    setTimeout(mostrarPopup, duracion);
+    setTimeout(() => {
+      indice++;
+      mostrarPopup();
+    }, duracion[indice]);
   } else {
-    popup.style.display = "none"; // Oculta al final
+    popup.style.display = "none";
+    beat.pause();        // Detiene el beat al final
+    beat.currentTime = 0; // Reinicia el audio
   }
 }
 
 // Botón de inicio para permitir audio en iPhone
 document.getElementById("startBtn").addEventListener("click", () => {
   document.getElementById("inicio").style.display = "none"; // Oculta pantalla inicial
-  beat.volume = 0.5; // Ajusta volumen
+  beat.volume = 0.5;
   beat.play().catch(() => console.log("Toca la pantalla para iniciar audio si Safari lo bloquea"));
   mostrarPopup(); // Inicia pop-ups
 });
@@ -130,4 +137,3 @@ document.getElementById("startBtn").addEventListener("click", () => {
 
 </body>
 </html>
-
