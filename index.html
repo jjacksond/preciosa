@@ -3,16 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CELOSO?</title>
-
+<title>Mi Canción Interactiva</title>
 <style>
-body {
+:root {
+  --vh: 100%;
+}
+
+body, #inicio {
   margin: 0;
   font-family: 'Helvetica Neue', Arial, sans-serif;
-  height: 100vh;
+  height: calc(var(--vh) * 100);
   overflow: hidden;
   background: linear-gradient(270deg, #ff5f6d, #ffc371, #24c6dc, #514a9d);
-  background-size: 1000% 1000%;
+  background-size: 800% 800%;
   animation: gradientBG 20s ease infinite;
   display: flex;
   align-items: center;
@@ -21,14 +24,15 @@ body {
   position: relative;
 }
 
-
+/* Animación de fondo */
 @keyframes gradientBG {
   0% {background-position:0% 50%;}
   50% {background-position:100% 50%;}
   100% {background-position:0% 50%;}
 }
 
-/* Pantalla inicial */#inicio {
+/* Pantalla inicial */
+#inicio {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,7 +63,7 @@ button:hover {
   transform: scale(1.05);
 }
 
-
+/* Pop-up */
 .popup {
   position: fixed;
   top: 50%;
@@ -80,7 +84,7 @@ button:hover {
   z-index: 20;
 }
 
-
+/* Partículas */
 .particle {
   position: absolute;
   width: 6px;
@@ -96,11 +100,11 @@ button:hover {
   100% {transform: translateY(-120vh) translateX(20px);}
 }
 
-
+/* Fade In/Out */
 .show { opacity: 1; }
 .hide { opacity: 0; }
 
-
+/* Leyenda abajo */
 #leyenda {
   position: fixed;
   bottom: 15px;
@@ -117,39 +121,47 @@ button:hover {
 </head>
 <body>
 
-
+<!-- Partículas -->
 <div id="particles"></div>
 
-
+<!-- Pantalla inicial -->
 <div id="inicio">
   <h2>🎵 Toca para empezar la canción 🎵</h2>
   <button id="startBtn">Iniciar</button>
 </div>
 
-
+<!-- Pop-up -->
 <div class="popup" id="popup">
   <div class="letra" id="texto"></div>
 </div>
 
-
+<!-- Leyenda fija -->
 <div id="leyenda">JJ</div>
 
-
+<!-- Audio Beat -->
 <audio id="beat">
   <source src="beat.mp3" type="audio/mpeg">
+  Tu navegador no soporta audio
 </audio>
 
 <script>
+// Ajustar altura en iPhone y móviles
+function actualizarAltura() {
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+window.addEventListener('resize', actualizarAltura);
+actualizarAltura();
 
+// Frases y duración
 const letra = [
-  "Yo no soy celoso, ¿pero quién e'ese cabron?",
-  "Dime quién e'ese cabron",
+  "Yo no soy celoso, ¿pero quién e'ese ...?",
+  "Dime quién e'ese ...",
   "Tranquila, no soy psycho",
   "No vo'a hacer un papelón, pero",
   "Auch, mi corazón"
 ];
-
-const duracion = [4000, 1500, 2000, 1700, 1500]; // segundos por popups
+const duracion = [4000, 1500, 2000, 1700, 1500]; // ms por popup
 
 const texto = document.getElementById("texto");
 const popup = document.getElementById("popup");
@@ -184,7 +196,7 @@ function mostrarPopup() {
       if(i >= chars.length) clearInterval(interval);
     }, 50); // velocidad por letra
 
-
+    // Inicia beat en primer popup
     if(indice===0){
       beat.volume = 0;
       beat.play().then(()=>{
@@ -231,4 +243,3 @@ document.getElementById("startBtn").addEventListener("click",()=>{
 
 </body>
 </html>
-
