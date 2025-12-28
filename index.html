@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pop-ups automáticos</title>
+<title>Mi Canción con Beat</title>
 <style>
 body {
   margin: 0;
@@ -51,11 +51,18 @@ body {
 </head>
 <body>
 
+<!-- Pop-up -->
 <div class="popup" id="popup">
   <div class="popup-content">
     <div class="letra" id="texto"></div>
   </div>
 </div>
+
+<!-- Audio Beat -->
+<audio id="beat" loop>
+  <source src="07be-d549-4439-81fa-b71451b3332d.mp3" type="audio/mpeg">
+  Tu navegador no soporta audio
+</audio>
 
 <script>
 const letra = [
@@ -67,8 +74,10 @@ const letra = [
 
 const texto = document.getElementById("texto");
 const popup = document.getElementById("popup");
+const beat = document.getElementById("beat");
+
 let indice = 0;
-const duracion = 3000; // Duración de cada popup en ms (3 segundos)
+const duracion = 3000; // 3 segundos por pop-up
 
 function mostrarPopup() {
   if (indice < letra.length) {
@@ -82,7 +91,13 @@ function mostrarPopup() {
 }
 
 // Inicia al cargar la página
-document.addEventListener("DOMContentLoaded", mostrarPopup);
+document.addEventListener("DOMContentLoaded", () => {
+  beat.volume = 0.5; // Ajusta volumen si quieres
+  beat.play().catch(() => {
+    console.log("Toca la pantalla para iniciar el audio si Safari lo bloquea.");
+  });
+  mostrarPopup();
+});
 </script>
 
 </body>
