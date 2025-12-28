@@ -9,17 +9,22 @@
   --vh: 100%;
 }
 
-body, #inicio {
+html, body {
   margin: 0;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  height: calc(var(--vh) * 100);
+  padding: 0;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100%;
   overflow: hidden;
-  background: linear-gradient(270deg, #ff5f6d, #ffc371, #24c6dc, #514a9d);
-  background-size: 800% 800%;
-  animation: gradientBG 20s ease infinite;
+}
+
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(270deg, #ff5f6d, #ffc371, #24c6dc, #514a9d);
+  background-size: 800% 800%;
+  animation: gradientBG 20s ease infinite;
   color: #fff;
   position: relative;
 }
@@ -39,6 +44,8 @@ body, #inicio {
   flex-direction: column;
   text-align: center;
   z-index: 10;
+  height: 100%;
+  width: 100%;
 }
 
 #inicio h2 {
@@ -145,7 +152,7 @@ button:hover {
 </audio>
 
 <script>
-// Ajustar altura en iPhone y móviles
+// Ajuste de altura para iPhone/móviles
 function actualizarAltura() {
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -161,7 +168,7 @@ const letra = [
   "No vo'a hacer un papelón, pero",
   "Auch, mi corazón"
 ];
-const duracion = [4000, 1500, 2000, 1700, 1500]; // ms por popup
+const duracion = [4000, 1500, 2000, 1700, 1500];
 
 const texto = document.getElementById("texto");
 const popup = document.getElementById("popup");
@@ -194,9 +201,8 @@ function mostrarPopup() {
       texto.innerHTML += chars[i];
       i++;
       if(i >= chars.length) clearInterval(interval);
-    }, 50); // velocidad por letra
+    }, 50);
 
-    // Inicia beat en primer popup
     if(indice===0){
       beat.volume = 0;
       beat.play().then(()=>{
@@ -218,10 +224,8 @@ function mostrarPopup() {
       },600);
     }, duracion[indice]);
   } else {
-    // Fin de popups
     popup.classList.remove('show');
     popup.classList.add('hide');
-    // Fade out del beat
     let fade = setInterval(()=>{
       if(beat.volume>0.02){
         beat.volume-=0.02;
