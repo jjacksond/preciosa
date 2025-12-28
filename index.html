@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Canción</title>
+<title>Pop-ups automáticos</title>
 <style>
 body {
   margin: 0;
@@ -41,17 +41,6 @@ body {
 .letra {
   font-size: 18px;
   line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-button {
-  padding: 12px 25px;
-  border: none;
-  border-radius: 8px;
-  background: #000;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
 }
 
 @keyframes fadeIn {
@@ -65,7 +54,6 @@ button {
 <div class="popup" id="popup">
   <div class="popup-content">
     <div class="letra" id="texto"></div>
-    <button id="btn">Siguiente</button>
   </div>
 </div>
 
@@ -77,31 +65,25 @@ const letra = [
   "Auch, mi corazón"
 ];
 
-let indice = 0;
 const texto = document.getElementById("texto");
-const btn = document.getElementById("btn");
+const popup = document.getElementById("popup");
+let indice = 0;
+const duracion = 3000; // Duración de cada popup en ms (3 segundos)
 
-function mostrar() {
-  texto.innerHTML = letra[indice];
-  if (indice === letra.length - 1) {
-    btn.innerText = "Cerrar";
+function mostrarPopup() {
+  if (indice < letra.length) {
+    texto.innerHTML = letra[indice];
+    popup.style.display = "flex";
+    indice++;
+    setTimeout(mostrarPopup, duracion);
+  } else {
+    popup.style.display = "none"; // Cierra al final
   }
 }
 
-// Avanzar pop-up al botón
-btn.addEventListener("click", () => {
-  if (indice < letra.length - 1) {
-    indice++;
-    mostrar();
-  } else {
-    document.getElementById("popup").style.display = "none";
-  }
-});
-
-// Mostrar primer pop-up en cuanto cargue la página
-document.addEventListener("DOMContentLoaded", mostrar);
+// Inicia al cargar la página
+document.addEventListener("DOMContentLoaded", mostrarPopup);
 </script>
 
 </body>
 </html>
-
