@@ -14,6 +14,18 @@ body {
   overflow: hidden;
 }
 
+/* Pantalla inicial */
+#inicio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #111;
+  color: #fff;
+  flex-direction: column;
+}
+
+/* Pop-up */
 .popup {
   position: fixed;
   top: 0;
@@ -47,12 +59,29 @@ body {
   from {opacity:0; transform: scale(0.95);}
   to {opacity:1; transform: scale(1);}
 }
+
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  background: #000;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+}
 </style>
 </head>
 <body>
 
+<!-- Pantalla inicial -->
+<div id="inicio">
+  <h2>🎵 Toca para empezar la canción 🎵</h2>
+  <button id="startBtn">Iniciar</button>
+</div>
+
 <!-- Pop-up -->
-<div class="popup" id="popup">
+<div class="popup" id="popup" style="display:none;">
   <div class="popup-content">
     <div class="letra" id="texto"></div>
   </div>
@@ -60,7 +89,7 @@ body {
 
 <!-- Audio Beat -->
 <audio id="beat" loop>
-  <source src="07be-d549-4439-81fa-b71451b3332d.mp3" type="audio/mpeg">
+  <source src="beat.mp3" type="audio/mpeg">
   Tu navegador no soporta audio
 </audio>
 
@@ -75,10 +104,10 @@ const letra = [
 const texto = document.getElementById("texto");
 const popup = document.getElementById("popup");
 const beat = document.getElementById("beat");
-
+const duracion = 3000; // 3 segundos por popup
 let indice = 0;
-const duracion = 3000; // 3 segundos por pop-up
 
+// Función para mostrar pop-ups automáticos
 function mostrarPopup() {
   if (indice < letra.length) {
     texto.innerHTML = letra[indice];
@@ -86,17 +115,16 @@ function mostrarPopup() {
     indice++;
     setTimeout(mostrarPopup, duracion);
   } else {
-    popup.style.display = "none"; // Cierra al final
+    popup.style.display = "none"; // Oculta al final
   }
 }
 
-// Inicia al cargar la página
-document.addEventListener("DOMContentLoaded", () => {
-  beat.volume = 0.5; // Ajusta volumen si quieres
-  beat.play().catch(() => {
-    console.log("Toca la pantalla para iniciar el audio si Safari lo bloquea.");
-  });
-  mostrarPopup();
+// Botón de inicio para permitir audio en iPhone
+document.getElementById("startBtn").addEventListener("click", () => {
+  document.getElementById("inicio").style.display = "none"; // Oculta pantalla inicial
+  beat.volume = 0.5; // Ajusta volumen
+  beat.play().catch(() => console.log("Toca la pantalla para iniciar audio si es necesario"));
+  mostrarPopup(); // Inicia pop-ups
 });
 </script>
 
