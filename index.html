@@ -88,7 +88,7 @@ button {
 </div>
 
 <!-- Audio Beat -->
-<audio id="beat" loop>
+<audio id="beat">
   <source src="beat.mp3" type="audio/mpeg">
   Tu navegador no soporta audio
 </audio>
@@ -115,23 +115,29 @@ function mostrarPopup() {
   if (indice < letra.length) {
     texto.innerHTML = letra[indice];
     popup.style.display = "flex";
+
+    // Inicia el beat al primer popup
+    if(indice === 0){
+      beat.volume = 0.5;
+      beat.play().catch(() => console.log("Toca la pantalla para iniciar audio si Safari lo bloquea"));
+    }
+
     setTimeout(() => {
       indice++;
       mostrarPopup();
     }, duracion[indice]);
   } else {
     popup.style.display = "none";
-    beat.pause();        // Detiene el beat al final
-    beat.currentTime = 0; // Reinicia el audio
+    // Detiene el beat al final
+    beat.pause();
+    beat.currentTime = 0;
   }
 }
 
 // Botón de inicio para permitir audio en iPhone
 document.getElementById("startBtn").addEventListener("click", () => {
   document.getElementById("inicio").style.display = "none"; // Oculta pantalla inicial
-  beat.volume = 0.5;
-  beat.play().catch(() => console.log("Toca la pantalla para iniciar audio si Safari lo bloquea"));
-  mostrarPopup(); // Inicia pop-ups
+  mostrarPopup(); // Inicia pop-ups y audio
 });
 </script>
 
