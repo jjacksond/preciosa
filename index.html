@@ -194,7 +194,7 @@ function mostrarPopup() {
           if(vol>=0.3){ beat.volume=0.3; clearInterval(fade); }
           else beat.volume=vol;
         },50);
-      }).catch(()=>console.log("Toca la pantalla para iniciar audio si Safari lo bloquea"));
+      }).catch(()=>console.log("error audio"));
     }
 
     setTimeout(()=>{
